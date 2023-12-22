@@ -140,7 +140,7 @@ workflows:
   deploy_and_run:
     when: 
       and:
-        - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute>> ]
+        - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute.downcase>> ]
     jobs:
     - deploy-dev:
         context: org-global
