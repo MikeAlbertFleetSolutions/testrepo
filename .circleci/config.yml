@@ -383,3 +383,53 @@ workflows:
         context: org-global      
         requires:
         - deploy-prod
+  dev_refresh:
+    when: 
+      and:
+         - equal: [ dev_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-dev:
+        type: approval
+        context: org-global      
+  qa_refresh:
+    when: 
+      and:
+         - equal: [ qa_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-qa:
+        type: approval
+        context: org-global
+  stage_refresh:
+    when: 
+      and:
+        - equal: [ stage_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-stage:
+        type: approval
+        context: org-global
+  prod_refresh:
+    when: 
+      and:
+        - equal: [ prod_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+        filters:
+          branches:
+            only: main
+    - publish:
+        context: org-global    
+        requires:
+        - build
+    - hold-deploy-prod:
+        type: approval 
+        requires: 
+        - publish        
+    - deploy-prod:
+        context: org-global
+        requires:
+        - hold-deploy-prod
+    - tag-release:
+        context: org-global      
+        requires:
+        - deploy-prod
