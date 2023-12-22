@@ -87,7 +87,7 @@ jobs:
     - checkout
     - run: echo "This was triggered by << pipeline.trigger_source >>"
 workflows:
-  version: 2.1
+  version: 2
   build_and_deploy:
     when: 
       and:
