@@ -1,187 +1,32 @@
-#changes for the master branch on 12/21/2023 --validate paramerts
-java-docker-defaults: &java-docker-defaults
-  docker:
-    - image: mafs/java-builder:11-jdk
-      auth:
-        username: $DOCKERHUB_USER 
-        password: $DOCKERHUB_PASSWORD
+version: 2.1
 
-curl-docker-defaults: &curl-docker-defaults
-  docker:
-    - image: mafs/curl:latest
-      auth:
-        username: $DOCKERHUB_USER
-        password: $DOCKERHUB_PASSWORD
-
-maven-env-defaults: &maven-env-defaults
-  <<: *java-docker-defaults
-  working_directory: ~/repo
-  environment:
-    MAVEN_OPTS: -Xmx3200m -Dmaven.wagon.http.retryHandler.count=3
-    TZ: "America/New_York"  
-
-curl-env-defaults: &curl-env-defaults
-  <<: *curl-docker-defaults
-  working_directory: ~/repo
-
-version: 2
 parameters:
-  dev_refresh:
-    description: if set to true it re start the application and pull the latest properties values into dev environment
-    type: boolean
-    default: false
-  qa_refresh:
-    description: if set to true it re start the application and pull the latest properties values into qa environment
-    type: boolean
-    default: false
-  stage_refresh:
-    description: if set to true it re start the application and pull the latest properties values into stage environment
-    type: boolean
-    default: false
-  prod_refresh:
-    description: if set to true it re start the application and pull the latest properties values into prod environment
-    type: boolean
-    default: false
   workflow_to_execute:
     type: string
     default: "default"
-   
-  
-jobs:
-  build:
-    <<: *maven-env-defaults
-    steps:
-      - checkout
-      - run: echo "This was triggered by build << pipeline.trigger_source >>"
-      - run: echo "This was triggered by build << pipeline.git.branch >>"
-      - run: echo "This was triggered by build <<pipeline.parameters.workflow_to_execute >>"
-      - run:
-           name: Check Git version
-           command: git --version
-      - run:
-          name: Set Discord Details
-          command: git log -1 --oneline --format="%s"
 
-  code-analysis:
-    <<: *maven-env-defaults
-    steps:
-      - checkout
-      - run: echo "This was triggered by code-analysis << pipeline.trigger_source >>" 
-  test:
-    parallelism: 4
-    <<: *maven-env-defaults
-    steps:
-      - checkout
-      - run: echo "This was triggered by test << pipeline.trigger_source >>"
-  publish:
-    <<: *maven-env-defaults
-    steps:
-      - checkout
-      - run: echo "This was triggered by publish << pipeline.trigger_source >>"                                          
-  deploy-dev:
-    <<: *curl-env-defaults
-    steps:
-    - checkout
-    - run: echo "This was triggered by deploy-dev << pipeline.trigger_source >>"    
-  deploy-qa:
-    <<: *curl-env-defaults
-    steps:
-    - checkout
-    - run: echo "This was triggered by deploy-qa<< pipeline.trigger_source >>"
-  deploy-stage:
-    <<: *curl-env-defaults
-    steps:
-    - checkout
-    - run: echo "This was triggered by deploy-stage<< pipeline.trigger_source >>"
-  deploy-prod:
-    <<: *curl-env-defaults
-    steps:
-    - checkout
-    - run: echo "This was triggered by << pipeline.trigger_source >>"
-  tag-release:
-    <<: *maven-env-defaults
-    steps:
-    - checkout
-    - run: echo "This was triggered by << pipeline.trigger_source >>"
 workflows:
   version: 2
   build_and_deploy:
-    when: << pipeline.parameters.workflow_to_execute == "default" >>
     jobs:
-    - build:
-        context: org-global
-    - code-analysis:
-        context: org-global        
-    - test:
-        context: org-global
-    - publish:
-        context: org-global    
-        requires:
-        - build
-        - code-analysis
-        - test        
-    - deploy-dev:
-        context: org-global
-        requires:
-        - publish
-    - hold-deploy-qa:
-        type: approval
-        requires:
-        - deploy-dev           
-    - deploy-qa:
-        context: org-global
-        requires:
-        - hold-deploy-qa        
-    - hold-deploy-stage:
-        type: approval
-        requires:
-        - deploy-qa
-    - deploy-stage:
-        context: org-global      
-        requires:
-        - hold-deploy-stage
-    - hold-deploy-prod:
-        type: approval
-        requires:
-        - deploy-stage
-    - deploy-prod:
-        context: org-global      
-        requires:
-        - hold-deploy-prod
-    - tag-release:
-        context: org-global      
-        requires:
-        - deploy-prod
-  deploy_and_run:
-    when: << pipeline.parameters.workflow_to_execute == "skiptest" >>
-    jobs:
-    - deploy-dev:
-        context: org-global
-    - hold-deploy-qa:
-        type: approval
-        requires:
-        - deploy-dev           
-    - deploy-qa:
-        context: org-global
-        requires:
-        - hold-deploy-qa        
-    - hold-deploy-stage:
-        type: approval
-        requires:
-        - deploy-qa
-    - deploy-stage:
-        context: org-global      
-        requires:
-        - hold-deploy-stage
-    - hold-deploy-prod:
-        type: approval
-        requires:
-        - deploy-stage
-    - deploy-prod:
-        context: org-global      
-        requires:
-        - hold-deploy-prod
-    - tag-release:
-        context: org-global      
-        requires:
-        - deploy-prod	
+      - build:
+          when: << pipeline.parameters.workflow_to_execute == 'default' >>
+      - deploy:
+          when: << pipeline.parameters.workflow_to_execute == 'deploy' >>
+
+jobs:
+  build:
+    docker:
+      - image: your-docker-image
+    steps:
+      - run:
+          name: Build
+          command: echo "Building..."
+
+  deploy:
+    docker:
+      - image: your-docker-image
+    steps:
+      - run:
+          name: Deploy
+          command: echo "Deploying..."
