@@ -246,9 +246,15 @@ workflows:
           branches:
             only: master
     - code-analysis:
-        context: org-global        
+        context: org-global  
+        filters:
+          branches:
+            only: master        
     - test:
         context: org-global
+        filters:
+          branches:
+            only: master
     - publish:
         context: org-global    
         requires:
