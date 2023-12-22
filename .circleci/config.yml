@@ -244,17 +244,17 @@ workflows:
         context: org-global
         filters:
           branches:
-            only: master
+            only: main
     - code-analysis:
         context: org-global  
         filters:
           branches:
-            only: master        
+            only: main        
     - test:
         context: org-global
         filters:
           branches:
-            only: master
+            only: main
     - publish:
         context: org-global    
         requires:
