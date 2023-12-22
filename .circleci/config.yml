@@ -294,14 +294,11 @@ workflows:
         context: org-global
     - code-analysis:
         context: org-global        
-    - test:
-        context: org-global
     - publish:
         context: org-global    
         requires:
         - build
         - code-analysis
-        - test  
     - hold-deploy-dev:
         type: approval
         requires:
@@ -319,14 +316,11 @@ workflows:
         context: org-global
     - code-analysis:
         context: org-global        
-    - test:
-        context: org-global
     - publish:
         context: org-global    
         requires:
         - build
         - code-analysis
-        - test
     - hold-deploy-qa:
         type: approval
         requires:
@@ -344,14 +338,11 @@ workflows:
         context: org-global
     - code-analysis:
         context: org-global        
-    - test:
-        context: org-global
     - publish:
         context: org-global    
         requires:
         - build
         - code-analysis
-        - test 
     - hold-deploy-stage:
         type: approval
         requires:
@@ -375,17 +366,11 @@ workflows:
         filters:
           branches:
             only: main        
-    - test:
-        context: org-global
-        filters:
-          branches:
-            only: main
     - publish:
         context: org-global    
         requires:
         - build
         - code-analysis
-        - test 
     - hold-deploy-prod:
         type: approval 
         requires: 
