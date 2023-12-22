@@ -140,11 +140,7 @@ workflows:
   deploy_and_run:
     jobs:
     - test:
-       filters:
-       when: # this does not work
-            condition:
-              equal: [ "skiptest", << pipeline.parameters.workflow_to_execute >> ]
-    
+       when: << parameters.workflow_to_execute == "skiptest" >>
     - deploy-dev:
         context: org-global
     - hold-deploy-qa:
