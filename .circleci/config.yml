@@ -242,6 +242,9 @@ workflows:
     jobs:
     - build:
         context: org-global
+        filters:
+          branches:
+            only: master
     - code-analysis:
         context: org-global        
     - test:
