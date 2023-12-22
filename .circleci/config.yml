@@ -1,4 +1,4 @@
-#changes for the master branch on 12/21/2023 --validate paramerts
+#changes for the master branch on 12/21/2023 only echo statements
 java-docker-defaults: &java-docker-defaults
   docker:
     - image: mafs/java-builder:11-jdk
@@ -26,22 +26,6 @@ curl-env-defaults: &curl-env-defaults
 
 version: 2.1
 parameters:
-  dev_refresh:
-    description: if set to true it re start the application and pull the latest properties values into dev environment
-    type: boolean
-    default: false
-  qa_refresh:
-    description: if set to true it re start the application and pull the latest properties values into qa environment
-    type: boolean
-    default: false
-  stage_refresh:
-    description: if set to true it re start the application and pull the latest properties values into stage environment
-    type: boolean
-    default: false
-  prod_refresh:
-    description: if set to true it re start the application and pull the latest properties values into prod environment
-    type: boolean
-    default: false
   workflow_to_execute:
     type: string
     default: "default"
@@ -105,7 +89,9 @@ jobs:
 workflows:
   version: 2.1
   build_and_deploy:
-    when: << pipeline.parameters.pipeline_parameter == "default" >>
+    when: 
+      and:
+        - equal: [ default, <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
     - build:
         context: org-global
@@ -152,7 +138,9 @@ workflows:
         requires:
         - deploy-prod
   deploy_and_run:
-    when: << pipeline.parameters.pipeline_parameter =~ (?i)^skiptest$ >>
+    when: 
+      and:
+         - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
     - deploy-dev:
         context: org-global
@@ -184,4 +172,3 @@ workflows:
         context: org-global      
         requires:
         - deploy-prod	
-  
