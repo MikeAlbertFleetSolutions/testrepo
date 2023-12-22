@@ -138,10 +138,11 @@ workflows:
         requires:
         - deploy-prod
   deploy_and_run:
-    when: 
-      and:
-         - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
+    - test:
+       filters:
+            conditions:
+              - << pipeline.parameters.workflow_to_execute != 'skiptest' >>
     - deploy-dev:
         context: org-global
     - hold-deploy-qa:
