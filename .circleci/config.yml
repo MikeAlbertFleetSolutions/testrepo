@@ -285,3 +285,116 @@ workflows:
         context: org-global      
         requires:
         - deploy-prod
+  dev_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ dev_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test  
+    - hold-deploy-dev:
+        type: approval
+        requires:
+        - publish          
+    - deploy-dev:
+        context: org-global
+        requires:
+        - hold-deploy-dev
+  qa_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ qa_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test
+    - hold-deploy-qa:
+        type: approval
+        requires:
+        - publish          
+    - deploy-qa:
+        context: org-global
+        requires:
+        - hold-deploy-qa
+  stage_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ stage_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test 
+    - hold-deploy-stage:
+        type: approval
+        requires:
+        - publish          
+    - deploy-stage:
+        context: org-global
+        requires:
+        - hold-deploy-stage
+  prod_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ prod_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+        filters:
+          branches:
+            only: main
+    - code-analysis:
+        context: org-global  
+        filters:
+          branches:
+            only: main        
+    - test:
+        context: org-global
+        filters:
+          branches:
+            only: main
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test 
+    - hold-deploy-prod:
+        type: approval 
+        requires: 
+        - publish        
+    - deploy-prod:
+        context: org-global
+        requires:
+        - hold-deploy-prod
+    - tag-release:
+        context: org-global      
+        requires:
+        - deploy-prod
