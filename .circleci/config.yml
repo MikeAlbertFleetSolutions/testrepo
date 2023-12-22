@@ -259,7 +259,7 @@ workflows:
     - deploy-prod:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-prod
     - tag-release:
         context: org-global      
         requires:
