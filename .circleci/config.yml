@@ -142,7 +142,7 @@ workflows:
     - test:
        when:
           condition:
-            equal: [skiptest, <<pipeline.parameters.workflow_to_execute>>]
+            - equal: [skiptest, <<pipeline.parameters.workflow_to_execute>>]
     - deploy-dev:
         context: org-global
     - hold-deploy-qa:
