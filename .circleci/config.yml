@@ -87,7 +87,7 @@ jobs:
     - checkout
     - run: echo "This was triggered by << pipeline.trigger_source >>"
 workflows:
-  version: 2
+  version: 2.1
   build_and_deploy:
     when: 
       and:
@@ -141,8 +141,10 @@ workflows:
     jobs:
     - test:
        filters:
-            conditions:
-              - << pipeline.parameters.workflow_to_execute != 'skiptest' >>
+       when: # this does not work
+            condition:
+              equal: [ "skiptest", << pipeline.parameters.workflow_to_execute >> ]
+    
     - deploy-dev:
         context: org-global
     - hold-deploy-qa:
