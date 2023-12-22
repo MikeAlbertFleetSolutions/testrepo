@@ -188,11 +188,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test  
+    - hold-deploy-dev:
+        type: approval
+        requires:
+        - publish          
     - deploy-dev:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-dev
   qa_deploy:
     when: 
       and:
@@ -209,11 +213,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test
+    - hold-deploy-qa:
+        type: approval
+        requires:
+        - publish          
     - deploy-qa:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-qa
   stage_deploy:
     when: 
       and:
@@ -230,11 +238,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test 
+    - hold-deploy-stage:
+        type: approval
+        requires:
+        - publish          
     - deploy-stage:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-stage
   prod_deploy:
     when: 
       and:
@@ -244,17 +256,17 @@ workflows:
         context: org-global
         filters:
           branches:
-            only: master
+            only: main
     - code-analysis:
         context: org-global  
         filters:
           branches:
-            only: master        
+            only: main        
     - test:
         context: org-global
         filters:
           branches:
-            only: master
+            only: main
     - publish:
         context: org-global    
         requires:
