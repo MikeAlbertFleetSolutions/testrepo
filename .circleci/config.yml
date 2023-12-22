@@ -253,7 +253,9 @@ workflows:
         - code-analysis
         - test 
     - hold-deploy-prod:
-        type: approval        
+        type: approval 
+        requires: 
+        - publish        
     - deploy-prod:
         context: org-global
         requires:
