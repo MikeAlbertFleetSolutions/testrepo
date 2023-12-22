@@ -140,7 +140,7 @@ workflows:
   deploy_and_run:
     when: 
       and:
-        - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute.downcase>> ]
+        - equal: [ skiptest, <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
     - deploy-dev:
         context: org-global
@@ -172,3 +172,87 @@ workflows:
         context: org-global      
         requires:
         - deploy-prod	
+  dev_deploy:
+    when: 
+      and:
+        - equal: [ dev_deploy , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test        
+    - deploy-dev:
+        context: org-global
+        requires:
+        - publish
+  qa_deploy:
+    when: 
+      and:
+        - equal: [ qa_deploy , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test        
+    - deploy-qa:
+        context: org-global
+        requires:
+        - publish
+  stage_deploy:
+    when: 
+      and:
+        - equal: [ stage_deploy , <<pipeline.parameters.stage_only_deploy>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test        
+    - deploy-stage:
+        context: org-global
+        requires:
+        - publish
+  prod_deploy:
+    when: 
+      and:
+        - equal: [ prod_deploy , <<pipeline.parameters.prod_only_deploy>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - test:
+        context: org-global
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+        - test        
+    - deploy-prod:
+        context: org-global
+        requires:
+        - publish
