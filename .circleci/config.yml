@@ -217,7 +217,7 @@ workflows:
   stage_deploy:
     when: 
       and:
-        - equal: [ stage_deploy , <<pipeline.parameters.stage_only_deploy>> ]
+        - equal: [ stage_deploy , <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
     - build:
         context: org-global
@@ -238,7 +238,7 @@ workflows:
   prod_deploy:
     when: 
       and:
-        - equal: [ prod_deploy , <<pipeline.parameters.prod_only_deploy>> ]
+        - equal: [ prod_deploy , <<pipeline.parameters.workflow_to_execute>> ]
     jobs:
     - build:
         context: org-global
