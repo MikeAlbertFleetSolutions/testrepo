@@ -251,8 +251,14 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test 
+    - hold-deploy-prod:
+        type: approval        
     - deploy-prod:
         context: org-global
         requires:
         - publish
+    - tag-release:
+        context: org-global      
+        requires:
+        - deploy-prod
