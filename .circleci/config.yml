@@ -129,13 +129,13 @@ workflows:
         type: approval
         requires:
         - deploy-stage
+        filters:
+          branches:
+            only: main
     - deploy-prod:
         context: org-global      
         requires:
         - hold-deploy-prod
-        filters:
-          branches:
-            only: main
     - tag-release:
         context: org-global      
         requires:
