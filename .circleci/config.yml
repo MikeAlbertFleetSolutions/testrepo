@@ -129,6 +129,9 @@ workflows:
         type: approval
         requires:
         - deploy-stage
+        filters:
+          branches:
+            only: main
     - deploy-prod:
         context: org-global      
         requires:
@@ -188,11 +191,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test  
+    - hold-deploy-dev:
+        type: approval
+        requires:
+        - publish          
     - deploy-dev:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-dev
   qa_deploy:
     when: 
       and:
@@ -209,11 +216,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test
+    - hold-deploy-qa:
+        type: approval
+        requires:
+        - publish          
     - deploy-qa:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-qa
   stage_deploy:
     when: 
       and:
@@ -230,11 +241,15 @@ workflows:
         requires:
         - build
         - code-analysis
-        - test        
+        - test 
+    - hold-deploy-stage:
+        type: approval
+        requires:
+        - publish          
     - deploy-stage:
         context: org-global
         requires:
-        - publish
+        - hold-deploy-stage
   prod_deploy:
     when: 
       and:
@@ -261,6 +276,154 @@ workflows:
         - build
         - code-analysis
         - test 
+    - hold-deploy-prod:
+        type: approval 
+        requires: 
+        - publish        
+    - deploy-prod:
+        context: org-global
+        requires:
+        - hold-deploy-prod
+    - tag-release:
+        context: org-global      
+        requires:
+        - deploy-prod
+  dev_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ dev_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+    - hold-deploy-dev:
+        type: approval
+        requires:
+        - publish          
+    - deploy-dev:
+        context: org-global
+        requires:
+        - hold-deploy-dev
+  qa_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ qa_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+    - hold-deploy-qa:
+        type: approval
+        requires:
+        - publish          
+    - deploy-qa:
+        context: org-global
+        requires:
+        - hold-deploy-qa
+  stage_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ stage_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+    - code-analysis:
+        context: org-global        
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+    - hold-deploy-stage:
+        type: approval
+        requires:
+        - publish          
+    - deploy-stage:
+        context: org-global
+        requires:
+        - hold-deploy-stage
+  prod_deploy_skiptest:
+    when: 
+      and:
+        - equal: [ prod_deploy_skiptest , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+        filters:
+          branches:
+            only: main
+    - code-analysis:
+        context: org-global  
+        filters:
+          branches:
+            only: main        
+    - publish:
+        context: org-global    
+        requires:
+        - build
+        - code-analysis
+    - hold-deploy-prod:
+        type: approval 
+        requires: 
+        - publish        
+    - deploy-prod:
+        context: org-global
+        requires:
+        - hold-deploy-prod
+    - tag-release:
+        context: org-global      
+        requires:
+        - deploy-prod
+  dev_refresh:
+    when: 
+      and:
+         - equal: [ dev_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-dev:
+        type: approval
+        context: org-global      
+  qa_refresh:
+    when: 
+      and:
+         - equal: [ qa_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-qa:
+        type: approval
+        context: org-global
+  stage_refresh:
+    when: 
+      and:
+        - equal: [ stage_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - deploy-stage:
+        type: approval
+        context: org-global
+  prod_refresh:
+    when: 
+      and:
+        - equal: [ prod_refresh , <<pipeline.parameters.workflow_to_execute>> ]
+    jobs:
+    - build:
+        context: org-global
+        filters:
+          branches:
+            only: main
+    - publish:
+        context: org-global    
+        requires:
+        - build
     - hold-deploy-prod:
         type: approval 
         requires: 
