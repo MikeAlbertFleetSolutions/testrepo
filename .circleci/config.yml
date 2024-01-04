@@ -38,6 +38,7 @@ jobs:
       - checkout
       - run: echo "This was triggered by build << pipeline.trigger_source >>"
       - run: echo "This was triggered by build << pipeline.git.branch >>"
+      - run: echo "This was triggered by branch ${{CIRCLE_BRANCH}} "
       - run:
            name: Check Git version
            command: git --version
