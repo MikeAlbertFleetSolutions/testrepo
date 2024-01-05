@@ -113,7 +113,7 @@ workflows:
             only: sandbox1
     - hold-deploy-qa:
         type: approval
-	      requires:
+        requires:
         - publish
         filters:
           branches:
