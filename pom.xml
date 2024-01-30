@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.mikealbert.accounting</groupId>
 	<artifactId>accounting-processor</artifactId>
-	<version>0.0.74-SNAPSHOT</version>
+	<version>0.0.02-SNAPSHOT</version>
     <description>Accounting Worker Services</description>
 
 	<properties>
@@ -236,7 +236,7 @@
 		        <version>${gitflow.maven.plugin.version}</version>
 		        <configuration>
 		            <gitFlowConfig>
-		                <developmentBranch>master</developmentBranch>
+		                <developmentBranch>production</developmentBranch>
 		            </gitFlowConfig>
 		        </configuration>
 		    </plugin>
