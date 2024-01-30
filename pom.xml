@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mikealbert.accounting</groupId>
-	<artifactId>accounting-processor</artifactId>
+	<artifactId>testrepo</artifactId>
 	<version>0.0.02-SNAPSHOT</version>
     <description>Accounting Worker Services</description>
 
