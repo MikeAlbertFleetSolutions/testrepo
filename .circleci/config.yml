@@ -81,10 +81,13 @@ jobs:
     - checkout
     - run: echo "This was triggered by << pipeline.trigger_source >>"
   tag-release:
-    <<: *maven-env-defaults
     steps:
     - checkout
-    - run: echo "This was triggered by << pipeline.trigger_source >>"
+    - run: git config user.email "mafs-githubadmin@mikealbert.com"
+    - run: git config user.name "mafs-githubadmin"
+    - run: mvn -B gitflow:release-start -DpushRemote=true -DskipTestProject=true
+    - run: sleep 60    
+    - run: mvn -B gitflow:release-finish -DskipTestProject=true
 workflows:
   version: 2.1
   build_and_deploy:
