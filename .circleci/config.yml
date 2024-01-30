@@ -81,6 +81,7 @@ jobs:
     - checkout
     - run: echo "This was triggered by << pipeline.trigger_source >>"
   tag-release:
+    <<: *maven-env-defaults
     steps:
     - checkout
     - run: git config user.email "mafs-githubadmin@mikealbert.com"
