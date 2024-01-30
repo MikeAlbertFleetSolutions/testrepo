@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.12</version> 
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.mikealbert.accounting</groupId>
+	<artifactId>accounting-processor</artifactId>
+	<version>0.0.74-SNAPSHOT</version>
+    <description>Accounting Worker Services</description>
+
+	<properties>
+		<java.version>11</java.version>
+		<camel.version>2.25.4</camel.version>
+		<suiteanalytics.client.version>1.0.13</suiteanalytics.client.version>
+		<suitetalk.client.version>1.0.67</suitetalk.client.version>
+		<mafs.java.util.version>1.0.72</mafs.java.util.version>
+		<mafs.java.constant.version>0.0.106</mafs.java.constant.version>
+		<address.scrubber.client.version>0.0.24</address.scrubber.client.version> 
+		<gitflow.maven.plugin.version>1.19.0</gitflow.maven.plugin.version>
+		<flyway.core.version>6.2.3.PATCHED</flyway.core.version>
+		<spotbugs.maven.plugin.version>4.7.3.4</spotbugs.maven.plugin.version>
+		<artifactory.maven.plugin.version>3.5.3</artifactory.maven.plugin.version>
+	</properties>
+    
+	<dependencies>	
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.springframework.boot</groupId>
+            		<artifactId>spring-boot-starter-logging</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>     
+	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>  
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>			           			
+		</dependency>
+		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>    
+        		
+	    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        
+	    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>        
+
+	    <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>        
+                
+        <dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-registry-graphite</artifactId>
+        </dependency>
+		
+		<dependency>
+		    <groupId>com.mikealbert</groupId>
+		    <artifactId>suiteanalytics-client</artifactId>
+		    <version>${suiteanalytics.client.version}</version>		
+		</dependency>				
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring-boot-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-quartz2-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-servlet-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jackson-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jms-starter</artifactId>
+		    <version>${camel.version}</version>
+        </dependency>
+        
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-csv-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>		
+		
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+        </dependency>		
+  
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-bindy-starter</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mikealbert</groupId>
+			<artifactId>mafs-java-util</artifactId>
+			<version>${mafs.java.util.version}</version>
+		</dependency> 
+		
+		<dependency>
+			<groupId>com.mikealbert.constant</groupId>
+			<artifactId>mafs-java-constant</artifactId>
+			<version>${mafs.java.constant.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mikealbert.webservice</groupId>
+			<artifactId>address-scrubber-client</artifactId>
+			<version>${address.scrubber.client.version}</version>
+		</dependency>
+						
+		<dependency>
+			<groupId>com.mikealbert.webservice</groupId>
+			<artifactId>suitetalk-client</artifactId>
+			<version>${suitetalk.client.version}</version>
+		</dependency>		
+		 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.core.version}</version> <!--$NO-MVN-MAN-VER$-->
+            <scope>runtime</scope>
+        </dependency>
+        		 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>		
+	</dependencies>
+
+	<build>
+		<plugins>
+		    <plugin>
+		       <artifactId>maven-surefire-plugin</artifactId>
+		       <configuration>
+		           <forkCount>0</forkCount>
+		       </configuration>
+		    </plugin>
+		    
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+					    
+		    <plugin>
+		        <groupId>com.amashchenko.maven.plugin</groupId>
+		        <artifactId>gitflow-maven-plugin</artifactId>
+		        <version>${gitflow.maven.plugin.version}</version>
+		        <configuration>
+		            <gitFlowConfig>
+		                <developmentBranch>master</developmentBranch>
+		            </gitFlowConfig>
+		        </configuration>
+		    </plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+				    <execution>
+				        <goals>
+				            <goal>build-info</goal>
+				        </goals>
+				    </execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs.maven.plugin.version}</version>
+				<configuration>
+					<outputDirectory>${project.basedir}/target</outputDirectory>
+					<excludeFilterFile>src/main/resources/spotbugsExcludeFilter.xml</excludeFilterFile>
+				</configuration>
+			</plugin>									
+			<plugin>
+				<groupId>org.jfrog.buildinfo</groupId>
+				<artifactId>artifactory-maven-plugin</artifactId>
+				<version>${artifactory.maven.plugin.version}</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>build-info</id>
+						<goals>
+							<goal>publish</goal>
+						</goals>
+						<configuration>
+							<deployProperties>
+								<gradle>awesome</gradle>
+							</deployProperties>
+							<publisher>
+								<contextUrl>https://mafs.jfrog.io/mafs/</contextUrl>
+								<username>${username}</username>
+								<password>${password}</password>
+								<excludePatterns>*-tests.jar</excludePatterns>
+								<repoKey>libs-release-local</repoKey>
+								<snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>
+							</publisher>
+							<buildInfo>
+								<buildName>${project.artifactId}</buildName>
+								<buildNumber>${env.CIRCLE_SHA1}</buildNumber>
+								<buildUrl>${env.CIRCLE_BUILD_URL}</buildUrl>
+							</buildInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

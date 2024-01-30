@@ -1,0 +1,15 @@
+[Unit]
+Description=Accounting Processor #%i
+After=network-online.target
+
+[Service]
+Type=simple
+User=accounting-processor
+Group=accounting-processor
+ExecStart=/usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar /opt/accounting-processor-%i/accounting-processor.jar
+Restart=on-failure
+RestartSec=5
+Environment=SPRING_CONFIG_LOCATION=/opt/accounting-processor-%i/application.properties
+
+[Install]
+WantedBy=multi-user.target

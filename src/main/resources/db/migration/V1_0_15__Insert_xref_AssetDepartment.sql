@@ -1,0 +1,74 @@
+DECLARE
+---------------------------------------------------------------------------------------------------
+--IMPORTANT NOTE FOR DEVELOPER: **** SCRIPT HAS TO BE RE-EXECUTABLE ****
+--
+-- Filename : DB_SCRIPT.sql
+-- Naming Convention : ins_xref_company.sql
+--
+-- Purpose  : Inserts the W2K to NS company mapping
+--
+-- Modification history
+--
+-- Version      Version Date   Log Number                 Changed By        Description/Reason for change
+-- -----------  ------------   ----------                 ------------      -------------------------------------------------------------------------------------------
+-- 1100         30-MAR-2020    LAFS-1015                       Saket M.          Initial
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  C_GROUP_NAME    CONSTANT   VARCHAR2(200) := UPPER('ASSET-DEPARTMENT');
+
+
+BEGIN 
+
+DELETE FROM ACCT_APP.XREF WHERE GROUP_NAME = C_GROUP_NAME;
+
+
+--SQL Statement which produced this data:
+--
+--  SELECT 
+--     ROWID, GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE
+--  FROM ACCT_APP.XREF
+--  WHERE
+--  GROUP_NAME = 'ASSET-DEPARTMENT';
+--
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Accounting', '1');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Accounts Payable', '402');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Accounts Receivable', '404');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Business Development Managers', '101');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Check in', '102');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Client Partnership Managers', '103');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Client Support', '104');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Corporate Building', '106');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Delivery', '108');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Executive', '109');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Executive Lease', '110');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Executive SS', '201');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Express', '111');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Fleet Maintenance', '112');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Fleet Titles', '113');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Get Ready', '114');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Human Resources', '115');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'ITS Business Analysts', '116');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'ITS Development', '117');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'ITS Infrastructure', '118');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'ITS Quality Assurance', '119');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Marketing', '120');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Parts', '122');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Purchasing', '123');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Remarketing', '124');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Rental', '203');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Resale', '125');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Service', '126');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Service Building', '127');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Structure', '128');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Support Services', '129');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Tax', '403');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Treasury and Risk', '130');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Truck', '131');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'Upfit', '202');
+INSERT into XREF (GROUP_NAME, INTERNAL_VALUE, EXTERNAL_VALUE) Values ('ASSET-DEPARTMENT', 'x-Eliminations', '303');
+
+  COMMIT;
+
+END;
+
+/
+

@@ -1,0 +1,40 @@
+{
+	"name": "Java",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "17",
+			// Options
+			"INSTALL_MAVEN": "false",
+			"INSTALL_GRADLE": "false",
+			"INSTALL_NODE": "false",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+
+	"runArgs": ["--network=host"],
+	
+	//Add mount for configuration files
+	"mounts": [
+		"source=${localEnv:HOME}/conf/${localWorkspaceFolderBasename},target=/workspaces/conf/${localWorkspaceFolderBasename},type=bind,consistency=cached"
+	],
+	
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"java.jdt.ls.java.home": "/usr/lib/jvm/java-11-openjdk-amd64"
+			},			
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"donjayamanne.git-extension-pack",
+				"pivotal.vscode-boot-dev-pack",
+				"redhat.fabric8-analytics",
+				"eamodio.gitlens",
+				"mutantdino.resourcemonitor",
+				"circleci.circleci",
+				"github.copilot"
+			]
+		}
+	}
+}
